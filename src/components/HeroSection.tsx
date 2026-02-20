@@ -132,7 +132,7 @@ const HeroSection = () => {
               className="flex gap-10 mt-14"
             >
               <Counter end={20} suffix="+" label="Years Experience" />
-              <Counter end={10000} suffix="+" label="Patients Treated" />
+              <Counter end={1000} suffix="+" label="Patients Treated" />
               <Counter end={3} label="Countries" />
             </motion.div>
           </div>

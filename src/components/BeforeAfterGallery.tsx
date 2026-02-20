@@ -1,6 +1,19 @@
 import { useState, useRef, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 
+import before1 from "@/assets/breast_before.jpg";
+import after1 from "@/assets/breast_after.jpg";
+import before2 from "@/assets/neck_before.jpg";
+import after2 from "@/assets/neck_after.jpg";
+// import before3 from "@/assets/neck_after.jpg";
+// import after3 from "@/assets/breast_after.jpg";
+// import before4 from "@/assets/breast_before.jpg";
+// import after4 from "@/assets/breast_after.jpg";
+// import before5 from "@/assets/breast_before.jpg";
+// import after5 from "@/assets/breast_after.jpg";
+// import before6 from "@/assets/breast_before.jpg";
+// import after6 from "@/assets/breast_after.jpg";
+
 interface Case {
   id: number;
   procedure: string;
@@ -8,39 +21,22 @@ interface Case {
   description: string;
   duration: string;
   recovery: string;
+  beforeImg: string;
+  afterImg: string;
 }
 
 const cases: Case[] = [
-  { id: 1, procedure: "Rhinoplasty", category: "Face", description: "Refined nasal bridge and tip for harmonious facial proportions.", duration: "2.5 hrs", recovery: "10 days" },
-  { id: 2, procedure: "Facelift", category: "Face", description: "Restored youthful contours while maintaining natural expression.", duration: "4 hrs", recovery: "2 weeks" },
-  { id: 3, procedure: "Breast Augmentation", category: "Breast", description: "Natural-looking enhancement with perfectly proportioned implants.", duration: "1.5 hrs", recovery: "1 week" },
-  { id: 4, procedure: "Liposuction", category: "Body", description: "Sculpted waistline with precise fat removal technique.", duration: "2 hrs", recovery: "10 days" },
-  { id: 5, procedure: "Blepharoplasty", category: "Face", description: "Rejuvenated eye area by removing excess skin and fat pads.", duration: "1.5 hrs", recovery: "7 days" },
-  { id: 6, procedure: "Tummy Tuck", category: "Body", description: "Flattened and tightened abdomen for a toned, confident profile.", duration: "3 hrs", recovery: "3 weeks" },
+  { id: 1, procedure: "Rhinoplasty", category: "Face", description: "Refined nasal bridge and tip for harmonious facial proportions.", duration: "2.5 hrs", recovery: "10 days", beforeImg: before1, afterImg: after1 },
+  { id: 2, procedure: "Full Face and Neck Lift", category: "Face", description: "Restored youthful contours while maintaining natural expression.", duration: "4 hrs", recovery: "2 weeks", beforeImg: before2, afterImg: after2 },
+  // { id: 3, procedure: "Breast Augmentation", category: "Breast", description: "Natural-looking enhancement with perfectly proportioned implants.", duration: "1.5 hrs", recovery: "1 week", beforeImg: before3, afterImg: after3 },
+  // { id: 4, procedure: "Liposuction", category: "Body", description: "Sculpted waistline with precise fat removal technique.", duration: "2 hrs", recovery: "10 days", beforeImg: before4, afterImg: after4 },
+  // { id: 5, procedure: "Blepharoplasty", category: "Face", description: "Rejuvenated eye area by removing excess skin and fat pads.", duration: "1.5 hrs", recovery: "7 days", beforeImg: before5, afterImg: after5 },
+  // { id: 6, procedure: "Tummy Tuck", category: "Body", description: "Flattened and tightened abdomen for a toned, confident profile.", duration: "3 hrs", recovery: "3 weeks", beforeImg: before6, afterImg: after6 },
 ];
 
 const categories = ["All", "Face", "Breast", "Body"] as const;
 
-// Gradient placeholders since real patient photos should be added by the doctor
-const beforeGradients = [
-  "linear-gradient(135deg, hsl(220 15% 70%), hsl(220 10% 55%))",
-  "linear-gradient(135deg, hsl(200 15% 68%), hsl(200 10% 52%))",
-  "linear-gradient(135deg, hsl(210 12% 72%), hsl(210 8% 56%))",
-  "linear-gradient(135deg, hsl(215 14% 66%), hsl(215 10% 50%))",
-  "linear-gradient(135deg, hsl(205 13% 71%), hsl(205 9% 54%))",
-  "linear-gradient(135deg, hsl(225 15% 69%), hsl(225 11% 53%))",
-];
-
-const afterGradients = [
-  "linear-gradient(135deg, hsl(43 50% 75%), hsl(43 60% 60%))",
-  "linear-gradient(135deg, hsl(40 48% 73%), hsl(40 58% 58%))",
-  "linear-gradient(135deg, hsl(45 52% 76%), hsl(45 62% 61%))",
-  "linear-gradient(135deg, hsl(42 46% 72%), hsl(42 56% 57%))",
-  "linear-gradient(135deg, hsl(44 50% 74%), hsl(44 60% 59%))",
-  "linear-gradient(135deg, hsl(41 49% 77%), hsl(41 59% 62%))",
-];
-
-const ComparisonSlider = ({ caseData, index }: { caseData: Case; index: number }) => {
+const ComparisonSlider = ({ caseData }: { caseData: Case }) => {
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -78,22 +74,16 @@ const ComparisonSlider = ({ caseData, index }: { caseData: Case; index: number }
         onTouchMove={handleTouchMove}
       >
         {/* After (full background) */}
-        <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ background: afterGradients[index % afterGradients.length] }}
-        >
-          <span className="text-primary/30 font-heading text-5xl font-bold select-none">After</span>
+        <div className="absolute inset-0">
+          <img src={caseData.afterImg} alt={`${caseData.procedure} after`} className="w-full h-full object-cover" />
         </div>
 
         {/* Before (clipped) */}
         <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{
-            background: beforeGradients[index % beforeGradients.length],
-            clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
-          }}
+          className="absolute inset-0"
+          style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
         >
-          <span className="text-primary-foreground/30 font-heading text-5xl font-bold select-none">Before</span>
+          <img src={caseData.beforeImg} alt={`${caseData.procedure} before`} className="w-full h-full object-cover" />
         </div>
 
         {/* Divider line */}
@@ -184,7 +174,7 @@ const BeforeAfterGallery = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 * i }}
             >
-              <ComparisonSlider caseData={c} index={c.id - 1} />
+              <ComparisonSlider caseData={c} />
             </motion.div>
           ))}
         </div>
