@@ -22,7 +22,7 @@ const testimonials = [
     procedure: "Facelift",
     location: "Kuwait City, Kuwait",
     rating: 5,
-    text: "The attention to detail is remarkable. Dr. Bourji took the time to understand exactly what I wanted, and the outcome is so natural — no one can tell I had anything done.",
+    text: "The attention to detail is remarkable. Dr. Bourjii took the time to understand exactly what I wanted, and the outcome is so natural — no one can tell I had anything done.",
   },
   {
     name: "Reem H.",
